@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
   user: "root",
   // Your password
   password: "Fr33dum!",
-  database: "greatbay_db"
+  database: "GreatBayDB"
 });
 connection.connect(function(err) {
   if (err) throw err;
