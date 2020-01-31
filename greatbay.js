@@ -1,4 +1,5 @@
 var mysql = require("mysql");
+var inquirer = require("inquirer");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -16,9 +17,34 @@ connection.connect(function(err) {
   afterConnection();
 });
 function afterConnection() {
+    start();
+
+
   connection.query("SELECT * FROM products", function(err, res) {
     if (err) throw err;
     console.log(res);
     connection.end();
   });
 }
+
+function start() {
+  return inquirer
+    .prompt({
+      name: "postorbid",
+      type: "list",
+      message: "Would you like to post or bid?",
+      choices: ["POST", "BID", "EXIT"]
+    })
+    .then(function(answer) {
+      if (answer.postorbid === "POST") {
+        postAuction();
+      } else if (answer.postorbid === "BID") {
+        readProducts();
+        // bidAuction();
+      } else {
+        connection.end();
+      }
+    });
+}
+
+start();
